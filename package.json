@@ -1,0 +1,108 @@
+{
+  "name": "hawkeye-system-info",
+  "version": "0.0.1",
+  "description": "hawkeye-system-info",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": "18 || 20"
+  },
+  "scripts": {
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "lint": "npm run eslint && npm run prettier:check",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -- -l",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run rebuild",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
+    "docker:build": "docker build -t iot-core-engine .",
+    "docker:run": "docker run -p 3000:3000 -d iot-core-engine",
+    "premigrate": "npm run build",
+    "migrate": "node -r dotenv/config ./dist/migrate",
+    "preopenapi-spec": "npm run build",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "prestart": "npm run rebuild",
+    "start": "node -r dotenv/config -r source-map-support/register .",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "rebuild": "npm run clean && npm run build",
+    "precoverage": "npm test",
+    "coverage": "open coverage/index.html",
+    "coverage:ci": "lb-nyc report --reporter=text-lcov | coverage/lcov.info",
+    "test": "lb-nyc lb-mocha -r dotenv/config --allow-console-logs \"dist/__tests__\"",
+    "test:ci": "lb-nyc lb-mocha -r dotenv/config --allow-console-logs \"dist/__tests__/unit\"",
+    "test:e2e": "lb-nyc lb-mocha -r dotenv/config --allow-console-logs \"dist/__tests__/e2e\"",
+    "prepare": "husky install",
+    "sonar-scanner": "node sonar-scanner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Kanmongkhon Buasa <kanmongkhon.bua@cjexpress.co.th>",
+  "license": "",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/boot": "^7.0.0",
+    "@loopback/core": "^6.0.0",
+    "@loopback/repository": "^7.0.0",
+    "@loopback/rest": "^14.0.0",
+    "@loopback/rest-explorer": "^7.0.0",
+    "@loopback/service-proxy": "^7.0.0",
+    "systeminformation": "^5.23.5",
+    "tslib": "^2.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
+    "@loopback/build": "^11.0.0",
+    "@loopback/eslint-config": "^15.0.0",
+    "@loopback/testlab": "^7.0.0",
+    "@types/node": "^16.18.86",
+    "eslint": "^8.57.0",
+    "source-map-support": "^0.5.21",
+    "typescript": "~5.2.2",
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^12.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/gitlab": "^13.0.3",
+    "@semantic-release/gitlab-config": "^14.0.1",
+    "@semantic-release/npm": "^12.0.0",
+    "@semantic-release/release-notes-generator": "^13.0.0",
+    "@types/amqplib": "^0.10.1",
+    "@types/bcrypt": "^5.0.0",
+    "@types/lodash": "^4.14.178",
+    "@types/morgan": "^1.9.4",
+    "@types/multer": "^1.4.11",
+    "@types/request": "^2.48.12",
+    "aws-sdk-client-mock": "^0.6.0",
+    "commitizen": "^4.2.6",
+    "conventional-changelog-conventionalcommits": "^5.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.4",
+    "init": "0.1.2",
+    "lint-staged": "^12.3.4",
+    "mockdate": "^3.0.5",
+    "nock": "^13.5.4",
+    "sonarqube-scanner": "^2.9.1"
+  },
+   "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
